@@ -1,4 +1,23 @@
 /**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
+ * All CSS code for the admin panel functionality
  */
+
+.wpi-admin .wpi-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 2px solid transparent;
+    color: #334155; /* slate-700 */
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.wpi-admin .wpi-tab:hover {
+    color: #0f172a; /* slate-900 */
+}
+
+.wpi-admin .wpi-tab--active {
+    border-bottom-color: #2563eb; /* blue-600 */
+    color: #0f172a; /* slate-900 */
+}

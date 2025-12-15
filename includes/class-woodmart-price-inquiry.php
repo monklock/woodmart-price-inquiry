@@ -1,19 +1,6 @@
 <?php
 
 /**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @link       https://delay-delo.com
- * @since      1.0.0
- *
- * @package    Woodmart_Price_Inquiry
- * @subpackage Woodmart_Price_Inquiry/includes
- */
-
-/**
  * The core plugin class.
  *
  * This is used to define internationalization, admin-specific hooks, and
@@ -145,7 +132,6 @@ class Woodmart_Price_Inquiry {
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
@@ -162,7 +148,6 @@ class Woodmart_Price_Inquiry {
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
