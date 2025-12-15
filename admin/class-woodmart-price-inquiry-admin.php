@@ -285,4 +285,51 @@ class Woodmart_Price_Inquiry_Admin {
         );
     }
 
+    /**
+     * Handle reset action for settings page.
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function maybe_handle_reset(): void {
+        if ( ! is_admin() ) {
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        $page = isset( $_GET['page'] ) ? sanitize_key( (string) $_GET['page'] ) : '';
+        if ( $page !== self::PAGE_SLUG ) {
+            return;
+        }
+
+        $action = isset( $_POST['wpi_action'] ) ? sanitize_key( (string) $_POST['wpi_action'] ) : '';
+        if ( $action !== 'reset_general' ) {
+            return;
+        }
+
+        /**
+         * settings_fields() prints nonce for SETTINGS_GROUP
+         * and WordPress verifies it on options.php for option save.
+         * For our custom reset action we must verify nonce too.
+         */
+        check_admin_referer( self::SETTINGS_GROUP . '-options' );
+
+        update_option( self::OPTION_NAME, $this->get_default_settings() );
+
+        wp_safe_redirect(
+            add_query_arg(
+                array(
+                    'page'     => self::PAGE_SLUG,
+                    'tab'      => 'general',
+                    'wpi_reset' => '1',
+                ),
+                admin_url( 'options-general.php' )
+            )
+        );
+        exit;
+    }
+
 }
