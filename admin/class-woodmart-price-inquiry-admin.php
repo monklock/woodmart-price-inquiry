@@ -61,19 +61,17 @@ class Woodmart_Price_Inquiry_Admin {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Woodmart_Price_Inquiry_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Woodmart_Price_Inquiry_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+        if ( ! $this->is_plugin_settings_page() ) {
+            return;
+        }
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woodmart-price-inquiry-admin.css', array(), $this->version, 'all' );
+        wp_enqueue_style(
+            $this->plugin_name . '-admin',
+            plugin_dir_url( __FILE__ ) . 'css/woodmart-price-inquiry-admin.css',
+            array(),
+            $this->version,
+            'all'
+        );
 
 	}
 
@@ -84,20 +82,104 @@ class Woodmart_Price_Inquiry_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Woodmart_Price_Inquiry_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Woodmart_Price_Inquiry_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+        if ( ! $this->is_plugin_settings_page() ) {
+            return;
+        }
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woodmart-price-inquiry-admin.js', array( 'jquery' ), $this->version, false );
+        /**
+         * Tailwind via CDN (admin-only, plugin page only).
+         */
+        wp_enqueue_script(
+            $this->plugin_name . '-tailwind-cdn',
+            'https://cdn.tailwindcss.com',
+            array(),
+            $this->version,
+            true
+        );
+
+        wp_enqueue_script(
+            $this->plugin_name . '-admin',
+            plugin_dir_url( __FILE__ ) . 'js/woodmart-price-inquiry-admin.js',
+            array(),
+            $this->version,
+            true
+        );
 
 	}
+
+    /**
+     * Register the settings page.
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function add_plugin_admin_menu(): void {
+        add_options_page(
+            __( 'Price Inquiry', 'woodmart-price-inquiry' ),
+            __( 'Price Inquiry', 'woodmart-price-inquiry' ),
+            'manage_options',
+            'woodmart-price-inquiry',
+            array( $this, 'display_plugin_setup_page' )
+        );
+    }
+
+    /**
+     * Render the settings page.
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function display_plugin_setup_page(): void {
+        require_once plugin_dir_path( __FILE__ ) . 'partials/woodmart-price-inquiry-admin-display.php';
+    }
+
+    /**
+     * Detect plugin settings page.
+     *
+     * @since 1.0.0
+     * @return bool
+     */
+    private function is_plugin_settings_page(): bool {
+        if ( ! is_admin() ) {
+            return false;
+        }
+
+        $page = isset( $_GET['page'] ) ? sanitize_key( (string) $_GET['page'] ) : '';
+        return $page === 'woodmart-price-inquiry';
+    }
+
+    /**
+     * Get active tab key.
+     *
+     * @since 1.0.0
+     * @return string
+     */
+    public function get_active_tab(): string {
+        $tab = isset( $_GET['tab'] ) ? sanitize_key( (string) $_GET['tab'] ) : 'general';
+
+        $allowed = array( 'general', 'form', 'captcha' );
+        if ( ! in_array( $tab, $allowed, true ) ) {
+            return 'general';
+        }
+
+        return $tab;
+    }
+
+    /**
+     * Build settings page URL with tab.
+     *
+     * @since 1.0.0
+     * @param string $tab Tab key.
+     * @return string
+     */
+    public function get_tab_url( string $tab ): string {
+        return add_query_arg(
+            array(
+                'page' => 'woodmart-price-inquiry',
+                'tab'  => $tab,
+            ),
+            admin_url( 'options-general.php' )
+        );
+    }
 
 }
