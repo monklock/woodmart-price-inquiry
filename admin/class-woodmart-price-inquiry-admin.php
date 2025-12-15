@@ -115,8 +115,8 @@ class Woodmart_Price_Inquiry_Admin {
      */
     public function add_plugin_admin_menu(): void {
         add_options_page(
-            __( 'Price Inquiry', 'woodmart-price-inquiry' ),
-            __( 'Price Inquiry', 'woodmart-price-inquiry' ),
+            __( 'Price Inquiry button', 'woodmart-price-inquiry' ),
+            __( 'Price Inquiry  button', 'woodmart-price-inquiry' ),
             'manage_options',
             'woodmart-price-inquiry',
             array( $this, 'display_plugin_setup_page' )
