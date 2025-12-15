@@ -141,7 +141,6 @@ $tabs = array(
                             </div>
                         </section>
 
-                        <!-- Section: Button text -->
                         <section class="rounded-xl border border-slate-200 bg-white p-5">
                             <h3 class="text-sm font-semibold text-slate-900">
                                 <?php echo esc_html__( 'Текст кнопки', 'woodmart-price-inquiry' ); ?>
@@ -163,7 +162,6 @@ $tabs = array(
                             </div>
                         </section>
 
-                        <!-- Section: Display mode -->
                         <section class="rounded-xl border border-slate-200 bg-white p-5">
                             <h3 class="text-sm font-semibold text-slate-900">
                                 <?php echo esc_html__( 'Где показывать кнопку', 'woodmart-price-inquiry' ); ?>
@@ -210,7 +208,6 @@ $tabs = array(
                                 </label>
                             </div>
 
-                            <!-- Auto placement (shown/hidden by JS later) -->
                             <div id="wpi-auto-placement" class="mt-5 hidden rounded-lg border border-slate-200 bg-slate-50 p-4">
                                 <p class="text-xs font-medium text-slate-700">
                                     <?php echo esc_html__( 'Позиция на странице товара', 'woodmart-price-inquiry' ); ?>
@@ -234,7 +231,6 @@ $tabs = array(
                             </div>
                         </section>
 
-                        <!-- Section: Modal behavior -->
                         <section class="rounded-xl border border-slate-200 bg-white p-5">
                             <h3 class="text-sm font-semibold text-slate-900">
                                 <?php echo esc_html__( 'Модальное окно', 'woodmart-price-inquiry' ); ?>
@@ -268,7 +264,6 @@ $tabs = array(
                         </section>
                     </div>
 
-                    <!-- Footer actions -->
                     <div class="flex items-center justify-end gap-3 pt-2">
                         <button type="button" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                             <?php echo esc_html__( 'Сбросить', 'woodmart-price-inquiry' ); ?>

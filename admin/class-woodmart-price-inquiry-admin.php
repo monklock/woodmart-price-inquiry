@@ -40,6 +40,30 @@ class Woodmart_Price_Inquiry_Admin {
 	 */
 	private $version;
 
+    /**
+     * Option name for all plugin settings.
+     *
+     * @since 1.0.0
+     * @var string
+     */
+    public const OPTION_NAME = 'wpi_settings';
+
+    /**
+     * Settings group for Settings API.
+     *
+     * @since 1.0.0
+     * @var string
+     */
+    public const SETTINGS_GROUP = 'wpi_settings_group';
+
+    /**
+     * Settings page slug.
+     *
+     * @since 1.0.0
+     * @var string
+     */
+    public const PAGE_SLUG = 'woodmart-price-inquiry';
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -181,5 +205,6 @@ class Woodmart_Price_Inquiry_Admin {
             admin_url( 'options-general.php' )
         );
     }
+
 
 }
