@@ -206,5 +206,83 @@ class Woodmart_Price_Inquiry_Admin {
         );
     }
 
+    /**
+     * Register settings (storage + sanitize only).
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    public function register_settings(): void {
+        register_setting(
+            self::SETTINGS_GROUP,
+            self::OPTION_NAME,
+            array(
+                'type'              => 'array',
+                'sanitize_callback' => array( $this, 'sanitize_settings' ),
+                'default'           => $this->get_default_settings(),
+            )
+        );
+    }
+
+    /**
+     * Sanitize saved settings.
+     *
+     * @since 1.0.0
+     * @param array $input Raw input.
+     * @return array
+     */
+    public function sanitize_settings( array $input ): array {
+        $defaults = $this->get_default_settings();
+        $output   = $defaults;
+
+        $output['enabled'] = ! empty( $input['enabled'] ) ? 1 : 0;
+
+        $rule = isset( $input['price_missing_rule'] ) ? sanitize_key( (string) $input['price_missing_rule'] ) : $defaults['price_missing_rule'];
+        $output['price_missing_rule'] = in_array( $rule, array( 'empty', 'empty_or_zero' ), true ) ? $rule : $defaults['price_missing_rule'];
+
+        $output['button_text'] = isset( $input['button_text'] ) ? sanitize_text_field( (string) $input['button_text'] ) : $defaults['button_text'];
+
+        $mode = isset( $input['display_mode'] ) ? sanitize_key( (string) $input['display_mode'] ) : $defaults['display_mode'];
+        $output['display_mode'] = in_array( $mode, array( 'shortcode', 'auto', 'both' ), true ) ? $mode : $defaults['display_mode'];
+
+        $pos = isset( $input['auto_position'] ) ? sanitize_key( (string) $input['auto_position'] ) : $defaults['auto_position'];
+        $output['auto_position'] = in_array( $pos, array( 'replace_price', 'after_price', 'after_cart', 'after_excerpt' ), true ) ? $pos : $defaults['auto_position'];
+
+        $output['modal_autoclose']   = ! empty( $input['modal_autoclose'] ) ? 1 : 0;
+        $output['modal_allow_close'] = ! empty( $input['modal_allow_close'] ) ? 1 : 0;
+
+        return $output;
+    }
+
+    /**
+     * Get merged settings (saved + defaults).
+     *
+     * @since 1.0.0
+     * @return array
+     */
+    public function get_settings(): array {
+        $defaults = $this->get_default_settings();
+        $saved    = get_option( self::OPTION_NAME, array() );
+
+        return wp_parse_args( is_array( $saved ) ? $saved : array(), $defaults );
+    }
+
+    /**
+     * Default settings.
+     *
+     * @since 1.0.0
+     * @return array
+     */
+    public function get_default_settings(): array {
+        return array(
+            'enabled'            => 1,
+            'price_missing_rule' => 'empty',
+            'button_text'        => __( 'Запросить цену', 'woodmart-price-inquiry' ),
+            'display_mode'       => 'shortcode',
+            'auto_position'      => 'replace_price',
+            'modal_autoclose'    => 1,
+            'modal_allow_close'  => 1,
+        );
+    }
 
 }
