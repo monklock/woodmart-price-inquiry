@@ -121,12 +121,27 @@ class Woodmart_Price_Inquiry_Admin {
             true
         );
 
+        /**
+         * Admin.js
+         */
         wp_enqueue_script(
             $this->plugin_name . '-admin',
             plugin_dir_url( __FILE__ ) . 'js/woodmart-price-inquiry-admin.js',
             array(),
             $this->version,
             true
+        );
+        /**
+         *
+         *  Callback ajax
+         */
+        wp_localize_script(
+            $this->plugin_name . '-admin',
+            'WPI_ADMIN',
+            array(
+                'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+                'nonce'   => wp_create_nonce( 'wpi_admin' ),
+            )
         );
 
 	}
@@ -286,50 +301,21 @@ class Woodmart_Price_Inquiry_Admin {
     }
 
     /**
-     * Handle reset action for settings page.
+     * AJAX: Reset plugin settings to defaults.
      *
      * @since 1.0.0
      * @return void
      */
-    public function maybe_handle_reset(): void {
-        if ( ! is_admin() ) {
-            return;
-        }
-
+    public function ajax_reset_settings(): void {
         if ( ! current_user_can( 'manage_options' ) ) {
-            return;
+            wp_send_json_error( array( 'message' => 'Access denied' ), 403 );
         }
 
-        $page = isset( $_GET['page'] ) ? sanitize_key( (string) $_GET['page'] ) : '';
-        if ( $page !== self::PAGE_SLUG ) {
-            return;
-        }
-
-        $action = isset( $_POST['wpi_action'] ) ? sanitize_key( (string) $_POST['wpi_action'] ) : '';
-        if ( $action !== 'reset_general' ) {
-            return;
-        }
-
-        /**
-         * settings_fields() prints nonce for SETTINGS_GROUP
-         * and WordPress verifies it on options.php for option save.
-         * For our custom reset action we must verify nonce too.
-         */
-        check_admin_referer( self::SETTINGS_GROUP . '-options' );
+        check_ajax_referer( 'wpi_admin', 'nonce' );
 
         update_option( self::OPTION_NAME, $this->get_default_settings() );
 
-        wp_safe_redirect(
-            add_query_arg(
-                array(
-                    'page'     => self::PAGE_SLUG,
-                    'tab'      => 'general',
-                    'wpi_reset' => '1',
-                ),
-                admin_url( 'options-general.php' )
-            )
-        );
-        exit;
+        wp_send_json_success( array( 'message' => 'Reset done' ) );
     }
 
 }

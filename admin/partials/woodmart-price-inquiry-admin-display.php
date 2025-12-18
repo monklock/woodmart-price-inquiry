@@ -24,9 +24,9 @@ if ( ! current_user_can( 'manage_options' ) ) {
 $active_tab = $this->get_active_tab();
 
 $tabs = array(
-        'general' => __( 'Общие настройки', 'woodmart-price-inquiry' ),
-        'form'    => __( 'Форма', 'woodmart-price-inquiry' ),
-        'captcha' => __( 'Капча', 'woodmart-price-inquiry' ),
+        'general' => __( 'General settings', 'woodmart-price-inquiry' ),
+        'form'    => __( 'Form', 'woodmart-price-inquiry' ),
+        'captcha' => __( 'Captcha', 'woodmart-price-inquiry' ),
 );
 
 ?>
@@ -37,10 +37,16 @@ $tabs = array(
             <h1 class="text-2xl font-semibold text-slate-900">
                 <?php echo esc_html__( 'Woodmart Price Inquiry', 'woodmart-price-inquiry' ); ?>
             </h1>
-            <p class="mt-1 text-sm text-slate-600">
-                <?php echo esc_html__( 'Настройте поведение кнопки запроса цены, форму и капчу.', 'woodmart-price-inquiry' ); ?>
+            <p class="mt-3 text-sm text-slate-600">
+                <?php echo esc_html__( 'Customize the behavior of the price request button, form, and captcha.', 'woodmart-price-inquiry' ); ?>
             </p>
         </div>
+
+        <?php if ( isset( $_GET['wpi_reset'] ) && '1' === (string) $_GET['wpi_reset'] ) : ?>
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                <?php echo esc_html__( 'Settings have been reset to default values.', 'woodmart-price-inquiry' ); ?>
+            </div>
+        <?php endif; ?>
 
         <nav class="mb-6 border-b border-slate-200">
             <ul class="-mb-px flex gap-3">
@@ -65,15 +71,9 @@ $tabs = array(
             if ( file_exists( $tab_file ) ) {
                 require $tab_file;
             } else {
-                echo '<p class="text-sm text-slate-600">' . esc_html__( 'Вкладка не найдена.', 'woodmart-price-inquiry' ) . '</p>';
+                echo '<p class="text-sm text-slate-600">' . esc_html__( 'Tab not found.', 'woodmart-price-inquiry' ) . '</p>';
             }
             ?>
         </section>
     </div>
 </div>
-
-<?php if ( isset( $_GET['wpi_reset'] ) && '1' === (string) $_GET['wpi_reset'] ) : ?>
-    <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-        <?php echo esc_html__( 'Настройки сброшены до значений по умолчанию.', 'woodmart-price-inquiry' ); ?>
-    </div>
-<?php endif; ?>

@@ -215,10 +215,10 @@ $field_name = static function ( string $key ): string {
                                 name="<?php echo esc_attr( $field_name( 'auto_position' ) ); ?>"
                                 class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                         >
-                            <option value="replace_price" <?php selected( $pos, 'replace_price' ); ?>><?php echo esc_html__( 'Вместо цены', 'woodmart-price-inquiry' ); ?></option>
-                            <option value="after_price" <?php selected( $pos, 'after_price' ); ?>><?php echo esc_html__( 'После цены', 'woodmart-price-inquiry' ); ?></option>
-                            <option value="after_cart" <?php selected( $pos, 'after_cart' ); ?>><?php echo esc_html__( 'После кнопки "В корзину"', 'woodmart-price-inquiry' ); ?></option>
-                            <option value="after_excerpt" <?php selected( $pos, 'after_excerpt' ); ?>><?php echo esc_html__( 'После краткого описания', 'woodmart-price-inquiry' ); ?></option>
+                            <option value="replace_price" <?php selected( $pos, 'replace_price' ); ?>><?php echo esc_html__( 'Instead of price', 'woodmart-price-inquiry' ); ?></option>
+                            <option value="after_price" <?php selected( $pos, 'after_price' ); ?>><?php echo esc_html__( 'After the price', 'woodmart-price-inquiry' ); ?></option>
+                            <option value="after_cart" <?php selected( $pos, 'after_cart' ); ?>><?php echo esc_html__( 'After the "Add to cart" button', 'woodmart-price-inquiry' ); ?></option>
+                            <option value="after_excerpt" <?php selected( $pos, 'after_excerpt' ); ?>><?php echo esc_html__( 'After a brief description', 'woodmart-price-inquiry' ); ?></option>
                         </select>
                     </label>
                 </div>
@@ -272,7 +272,12 @@ $field_name = static function ( string $key ): string {
             <?php echo esc_html__( 'Reset', 'woodmart-price-inquiry' ); ?>
         </button>
 
-        <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+        <button
+                type="submit"
+                name="wpi_action"
+                value="save"
+                class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
             <?php echo esc_html__( 'Save', 'woodmart-price-inquiry' ); ?>
         </button>
     </div>

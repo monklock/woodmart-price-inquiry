@@ -1,21 +1,26 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
+
     /**
+     * General Tab Toggles
+     *
      * @returns {void}
      */
     function initGeneralTabToggles() {
         const placement = document.getElementById('wpi-auto-placement');
         if (!placement) return;
 
-        /** @type {NodeListOf<HTMLInputElement>} */
-        const radios = document.querySelectorAll('input[name="wpi_display_mode"]');
+        const radios =
+            document.querySelectorAll('input[name="wpi_settings[display_mode]"]');
 
-        /**
-         * @returns {void}
-         */
+        const fallbackRadios =
+            radios.length ? radios : document.querySelectorAll('input[name="wpi_display_mode"]');
+
+        if (!fallbackRadios.length) return;
+
         const sync = () => {
             let mode = 'shortcode';
-            radios.forEach((el) => {
+            fallbackRadios.forEach((el) => {
                 if (el.checked) mode = el.value;
             });
 
@@ -23,9 +28,68 @@
             placement.classList.toggle('hidden', !shouldShow);
         };
 
-        radios.forEach((el) => el.addEventListener('change', sync));
+        fallbackRadios.forEach((el) => el.addEventListener('change', sync));
         sync();
     }
 
-    document.addEventListener('DOMContentLoaded', initGeneralTabToggles);
-})( jQuery );
+    /**
+     * Intercept Reset submit and run AJAX reset.
+     *
+     * @returns {void}
+     */
+    function initResetButton() {
+
+        const form = document.querySelector('form[action="options.php"]');
+        if (!form) return;
+
+        form.addEventListener('submit', (e) => {
+
+            const ev = e;
+
+            const submitter = ev.submitter;
+            if (!submitter) return;
+
+            const name = submitter.getAttribute('name');
+            const value = submitter.getAttribute('value');
+
+            if (name !== 'wpi_action' || value !== 'reset_general') {
+                return; // normal save
+            }
+
+            ev.preventDefault();
+
+            if (!window.WPI_ADMIN || !window.WPI_ADMIN.ajaxUrl || !window.WPI_ADMIN.nonce) {
+                window.alert('Reset is not configured (missing WPI_ADMIN).');
+                return;
+            }
+
+            const ok = window.confirm('Reset settings to defaults?');
+            if (!ok) return;
+
+            const body = new URLSearchParams();
+            body.set('action', 'wpi_reset_settings');
+            body.set('nonce', window.WPI_ADMIN.nonce);
+
+            fetch(window.WPI_ADMIN.ajaxUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                body: body.toString(),
+                credentials: 'same-origin',
+            })
+                .then((r) => r.json())
+                .then((data) => {
+                    if (!data || !data.success) {
+                        window.alert('Reset failed');
+                        return;
+                    }
+                    window.location.reload();
+                })
+                .catch(() => window.alert('Reset failed'));
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initGeneralTabToggles();
+        initResetButton();
+    });
+})();
