@@ -277,7 +277,7 @@ class Woodmart_Price_Inquiry_Admin {
         return array(
             'enabled'            => 1,
             'price_missing_rule' => 'empty',
-            'button_text'        => __( 'Запросить цену', 'woodmart-price-inquiry' ),
+            'button_text'        => __( 'Request a price', 'woodmart-price-inquiry' ),
             'display_mode'       => 'shortcode',
             'auto_position'      => 'replace_price',
             'modal_autoclose'    => 1,
