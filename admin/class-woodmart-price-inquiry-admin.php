@@ -266,6 +266,12 @@ class Woodmart_Price_Inquiry_Admin {
         $output['modal_autoclose']   = ! empty( $input['modal_autoclose'] ) ? 1 : 0;
         $output['modal_allow_close'] = ! empty( $input['modal_allow_close'] ) ? 1 : 0;
 
+        $provider = isset( $input['form_provider'] ) ? sanitize_key( (string) $input['form_provider'] ) : $defaults['form_provider'];
+        $output['form_provider'] = in_array( $provider, array( 'cf7', 'custom' ), true ) ? $provider : $defaults['form_provider'];
+
+        $output['cf7_form_id'] = isset( $input['cf7_form_id'] ) ? absint( $input['cf7_form_id'] ) : 0;
+
+
         return $output;
     }
 
@@ -297,6 +303,8 @@ class Woodmart_Price_Inquiry_Admin {
             'auto_position'      => 'replace_price',
             'modal_autoclose'    => 1,
             'modal_allow_close'  => 1,
+            'form_provider' => 'cf7',
+            'cf7_form_id'   => 0,
         );
     }
 

@@ -35,6 +35,7 @@
     /**
      * Intercept Reset submit and run AJAX reset.
      *
+     * @since 1.0.0
      * @returns {void}
      */
     function initResetButton() {
@@ -88,8 +89,41 @@
         });
     }
 
+    /**
+     * Toggle Form tab sections (CF7 vs Custom).
+     *
+     * @since 1.0.0
+     * @returns {void}
+     */
+    function initFormTabToggles() {
+        const cf7Box = document.getElementById('wpi-form-cf7');
+        const customBox = document.getElementById('wpi-form-custom');
+        if (!cf7Box || !customBox) return;
+
+        const radios =
+            document.querySelectorAll('input[name="wpi_settings[form_provider]"]');
+
+        if (!radios.length) return;
+
+        const sync = () => {
+            let val = 'cf7';
+            radios.forEach((el) => {
+                if (el.checked) val = el.value;
+            });
+
+            const isCf7 = val === 'cf7';
+            cf7Box.classList.toggle('hidden', !isCf7);
+            customBox.classList.toggle('hidden', isCf7);
+        };
+
+        radios.forEach((el) => el.addEventListener('change', sync));
+        sync();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initGeneralTabToggles();
         initResetButton();
+        initFormTabToggles();
     });
+
 })();
