@@ -271,6 +271,57 @@ class Woodmart_Price_Inquiry_Admin {
 
         $output['cf7_form_id'] = isset( $input['cf7_form_id'] ) ? absint( $input['cf7_form_id'] ) : 0;
 
+        $output['cf7_form_id'] = isset( $input['cf7_form_id'] ) ? absint( $input['cf7_form_id'] ) : 0;
+
+        /** Base fields */
+        $base = isset( $input['custom_base_fields'] ) && is_array( $input['custom_base_fields'] ) ? $input['custom_base_fields'] : array();
+        $output['custom_base_fields'] = $defaults['custom_base_fields'];
+
+        foreach ( array_keys( $output['custom_base_fields'] ) as $field_key ) {
+            $row = isset( $base[ $field_key ] ) && is_array( $base[ $field_key ] ) ? $base[ $field_key ] : array();
+
+            $output['custom_base_fields'][ $field_key ]['enabled']  = ! empty( $row['enabled'] ) ? 1 : 0;
+            $output['custom_base_fields'][ $field_key ]['required'] = ! empty( $row['required'] ) ? 1 : 0;
+            $output['custom_base_fields'][ $field_key ]['label']    = isset( $row['label'] )
+                ? sanitize_text_field( (string) $row['label'] )
+                : $defaults['custom_base_fields'][ $field_key ]['label'];
+        }
+
+        /** Custom fields repeater */
+        $output['custom_fields'] = array();
+
+        $fields = isset( $input['custom_fields'] ) && is_array( $input['custom_fields'] ) ? $input['custom_fields'] : array();
+        $fields = array_slice( $fields, 0, 20 ); // limit
+
+        foreach ( $fields as $row ) {
+            if ( ! is_array( $row ) ) {
+                continue;
+            }
+
+            $key = isset( $row['key'] ) ? sanitize_key( (string) $row['key'] ) : '';
+            if ( $key === '' ) {
+                continue;
+            }
+
+            $label = isset( $row['label'] ) ? sanitize_text_field( (string) $row['label'] ) : '';
+            if ( $label === '' ) {
+                $label = strtoupper( $key );
+            }
+
+            $type = isset( $row['type'] ) ? sanitize_key( (string) $row['type'] ) : 'text';
+            if ( ! in_array( $type, array( 'text' ), true ) ) {
+                $type = 'text';
+            }
+
+            $output['custom_fields'][] = array(
+                'key'         => $key,
+                'label'       => $label,
+                'type'        => $type,
+                'required'    => ! empty( $row['required'] ) ? 1 : 0,
+                'placeholder' => isset( $row['placeholder'] ) ? sanitize_text_field( (string) $row['placeholder'] ) : '',
+            );
+        }
+
 
         return $output;
     }
@@ -311,8 +362,7 @@ class Woodmart_Price_Inquiry_Admin {
                 'email'   => array( 'enabled' => 1, 'required' => 0, 'label' => __( 'Email', 'woodmart-price-inquiry' ) ),
                 'message' => array( 'enabled' => 1, 'required' => 0, 'label' => __( 'Message', 'woodmart-price-inquiry' ) ),
             ),
-
-            'custom_fields'       => array(), // array of {key,label,required,placeholder,type}
+            'custom_fields'       => array(),
         );
     }
 
