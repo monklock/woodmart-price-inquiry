@@ -271,8 +271,6 @@ class Woodmart_Price_Inquiry_Admin {
 
         $output['cf7_form_id'] = isset( $input['cf7_form_id'] ) ? absint( $input['cf7_form_id'] ) : 0;
 
-        $output['cf7_form_id'] = isset( $input['cf7_form_id'] ) ? absint( $input['cf7_form_id'] ) : 0;
-
         /** Base fields */
         $base = isset( $input['custom_base_fields'] ) && is_array( $input['custom_base_fields'] ) ? $input['custom_base_fields'] : array();
         $output['custom_base_fields'] = $defaults['custom_base_fields'];
