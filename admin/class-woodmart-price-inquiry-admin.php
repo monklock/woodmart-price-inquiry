@@ -29,7 +29,7 @@ class Woodmart_Price_Inquiry_Admin {
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	private string $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -38,7 +38,7 @@ class Woodmart_Price_Inquiry_Admin {
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	private string $version;
 
     /**
      * Option name for all plugin settings.
@@ -46,7 +46,7 @@ class Woodmart_Price_Inquiry_Admin {
      * @since 1.0.0
      * @var string
      */
-    public const OPTION_NAME = 'wpi_settings';
+    public const string OPTION_NAME = 'wpi_settings';
 
     /**
      * Settings group for Settings API.
@@ -54,7 +54,7 @@ class Woodmart_Price_Inquiry_Admin {
      * @since 1.0.0
      * @var string
      */
-    public const SETTINGS_GROUP = 'wpi_settings_group';
+    public const string SETTINGS_GROUP = 'wpi_settings_group';
 
     /**
      * Settings page slug.
@@ -62,16 +62,16 @@ class Woodmart_Price_Inquiry_Admin {
      * @since 1.0.0
      * @var string
      */
-    public const PAGE_SLUG = 'woodmart-price-inquiry';
+    public const string PAGE_SLUG = 'woodmart-price-inquiry';
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string    $plugin_name The name of this plugin.
+	 * @param string $version    The version of this plugin.
+	 *@since    1.0.0
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct(string $plugin_name, string $version ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
