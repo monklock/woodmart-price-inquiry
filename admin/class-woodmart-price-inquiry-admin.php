@@ -305,6 +305,14 @@ class Woodmart_Price_Inquiry_Admin {
             'modal_allow_close'  => 1,
             'form_provider' => 'cf7',
             'cf7_form_id'   => 0,
+            'custom_base_fields'  => array(
+                'name'    => array( 'enabled' => 1, 'required' => 1, 'label' => __( 'Name', 'woodmart-price-inquiry' ) ),
+                'phone'   => array( 'enabled' => 1, 'required' => 1, 'label' => __( 'Phone', 'woodmart-price-inquiry' ) ),
+                'email'   => array( 'enabled' => 1, 'required' => 0, 'label' => __( 'Email', 'woodmart-price-inquiry' ) ),
+                'message' => array( 'enabled' => 1, 'required' => 0, 'label' => __( 'Message', 'woodmart-price-inquiry' ) ),
+            ),
+
+            'custom_fields'       => array(), // array of {key,label,required,placeholder,type}
         );
     }
 

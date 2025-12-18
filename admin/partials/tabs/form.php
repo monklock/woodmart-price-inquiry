@@ -55,24 +55,24 @@ $get_cf7_forms = static function (): array {
 $cf7_forms = $get_cf7_forms();
 
 ?>
+
 <form method="post" action="options.php" class="space-y-6">
     <?php settings_fields( Woodmart_Price_Inquiry_Admin::SETTINGS_GROUP ); ?>
 
     <div class="flex items-start justify-between gap-6">
         <div>
             <h2 class="text-lg font-semibold text-slate-900">
-                <?php echo esc_html__( 'Форма', 'woodmart-price-inquiry' ); ?>
+                <?php echo esc_html__( 'Form setting', 'woodmart-price-inquiry' ); ?>
             </h2>
             <p class="mt-1 text-sm text-slate-600">
-                <?php echo esc_html__( 'Выберите источник формы для модального окна: Contact Form 7 или встроенный конструктор.', 'woodmart-price-inquiry' ); ?>
+                <?php echo esc_html__( 'Select the form source for the modal window: Contact Form 7 or the built-in designer.', 'woodmart-price-inquiry' ); ?>
             </p>
         </div>
     </div>
 
-    <!-- Provider -->
     <section class="rounded-xl border border-slate-200 bg-white p-5">
         <h3 class="text-sm font-semibold text-slate-900">
-            <?php echo esc_html__( 'Источник формы', 'woodmart-price-inquiry' ); ?>
+            <?php echo esc_html__( 'Source of form', 'woodmart-price-inquiry' ); ?>
         </h3>
 
         <div class="mt-4 grid gap-3 sm:grid-cols-2">
@@ -86,7 +86,7 @@ $cf7_forms = $get_cf7_forms();
                 >
                 <span>
 					<span class="block text-sm font-medium text-slate-900"><?php echo esc_html__( 'Contact Form 7', 'woodmart-price-inquiry' ); ?></span>
-					<span class="block text-xs text-slate-500"><?php echo esc_html__( 'Используем шорткод формы CF7 внутри модального окна.', 'woodmart-price-inquiry' ); ?></span>
+					<span class="block text-xs text-slate-500"><?php echo esc_html__( 'We use the CF7 form shortcode inside the modal window.', 'woodmart-price-inquiry' ); ?></span>
 				</span>
             </label>
 
@@ -99,8 +99,8 @@ $cf7_forms = $get_cf7_forms();
                         <?php checked( $form_provider, 'custom' ); ?>
                 >
                 <span>
-					<span class="block text-sm font-medium text-slate-900"><?php echo esc_html__( 'Встроенная форма', 'woodmart-price-inquiry' ); ?></span>
-					<span class="block text-xs text-slate-500"><?php echo esc_html__( 'Свой конструктор полей (сохраняем и валидируем сами).', 'woodmart-price-inquiry' ); ?></span>
+					<span class="block text-sm font-medium text-slate-900"><?php echo esc_html__( 'Built-in form', 'woodmart-price-inquiry' ); ?></span>
+					<span class="block text-xs text-slate-500"><?php echo esc_html__( 'Custom field constructor (we save and validate them ourselves).', 'woodmart-price-inquiry' ); ?></span>
 				</span>
             </label>
         </div>
@@ -109,17 +109,17 @@ $cf7_forms = $get_cf7_forms();
     <!-- CF7 settings -->
     <section id="wpi-form-cf7" class="rounded-xl border border-slate-200 bg-white p-5">
         <h3 class="text-sm font-semibold text-slate-900">
-            <?php echo esc_html__( 'Настройки CF7', 'woodmart-price-inquiry' ); ?>
+            <?php echo esc_html__( 'CF7 Settings', 'woodmart-price-inquiry' ); ?>
         </h3>
 
         <?php if ( empty( $cf7_forms ) ) : ?>
             <p class="mt-3 text-sm text-slate-600">
-                <?php echo esc_html__( 'Формы CF7 не найдены. Убедитесь, что Contact Form 7 установлен и что есть хотя бы одна форма.', 'woodmart-price-inquiry' ); ?>
+                <?php echo esc_html__( 'No CF7 forms found. Please ensure Contact Form 7 is installed and that at least one form exists..', 'woodmart-price-inquiry' ); ?>
             </p>
         <?php else : ?>
             <div class="mt-4">
                 <label class="block text-xs font-medium text-slate-600" for="wpi_cf7_form_id">
-                    <?php echo esc_html__( 'Выберите форму', 'woodmart-price-inquiry' ); ?>
+                    <?php echo esc_html__( 'Select a form', 'woodmart-price-inquiry' ); ?>
                 </label>
 
                 <select
@@ -127,7 +127,7 @@ $cf7_forms = $get_cf7_forms();
                         name="<?php echo esc_attr( $field_name( 'cf7_form_id' ) ); ?>"
                         class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 >
-                    <option value="0"><?php echo esc_html__( '— Не выбрано —', 'woodmart-price-inquiry' ); ?></option>
+                    <option value="0"><?php echo esc_html__( '— Not selected —', 'woodmart-price-inquiry' ); ?></option>
                     <?php foreach ( $cf7_forms as $id => $title ) : ?>
                         <option value="<?php echo esc_attr( (string) $id ); ?>" <?php selected( $cf7_form_id, (int) $id ); ?>>
                             <?php echo esc_html( $title ); ?>
@@ -136,7 +136,7 @@ $cf7_forms = $get_cf7_forms();
                 </select>
 
                 <p class="mt-2 text-xs text-slate-500">
-                    <?php echo esc_html__( 'Дальше мы подключим шорткод формы в модальное окно и добавим обработку успешной отправки.', 'woodmart-price-inquiry' ); ?>
+                    <?php echo esc_html__( 'In development', 'woodmart-price-inquiry' ); ?>
                 </p>
             </div>
         <?php endif; ?>
@@ -145,7 +145,7 @@ $cf7_forms = $get_cf7_forms();
     <!-- Custom settings (stub) -->
     <section id="wpi-form-custom" class="rounded-xl border border-slate-200 bg-white p-5">
         <h3 class="text-sm font-semibold text-slate-900">
-            <?php echo esc_html__( 'Встроенная форма', 'woodmart-price-inquiry' ); ?>
+            <?php echo esc_html__( 'Built-in form', 'woodmart-price-inquiry' ); ?>
         </h3>
 
         <p class="mt-3 text-sm text-slate-600">
