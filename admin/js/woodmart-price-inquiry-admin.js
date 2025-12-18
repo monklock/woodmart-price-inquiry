@@ -120,10 +120,74 @@
         sync();
     }
 
+
+    /**
+     * Custom fields builder (add/remove + reindex).
+     *
+     * @since 1.0.0
+     * @returns {void}
+     */
+    function initCustomFieldsBuilder() {
+        const list = document.getElementById('wpi-fields-list');
+        const addBtn = document.getElementById('wpi-add-field');
+        const tpl = document.getElementById('wpi-field-template');
+
+        if (!list || !addBtn || !tpl) return;
+
+        /**
+         * @returns {void}
+         */
+        const reindex = () => {
+            const rows = list.querySelectorAll('.wpi-field-row');
+            rows.forEach((row, i) => {
+                row.dataset.index = String(i);
+
+                /** @type {NodeListOf<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>} */
+                const inputs = row.querySelectorAll('input[name], select[name], textarea[name]');
+                inputs.forEach((el) => {
+                    const name = el.getAttribute('name');
+                    if (!name) return;
+
+                    // Replace [<number>] with [i] for wpi_settings[custom_fields]
+                    const next = name.replace(/wpi_settings\[custom_fields]\[\d+]/g, `wpi_settings[custom_fields][${i}]`);
+                    el.setAttribute('name', next);
+                });
+            });
+        };
+
+        addBtn.addEventListener('click', () => {
+            const index = list.querySelectorAll('.wpi-field-row').length;
+            const html = tpl.innerHTML.replaceAll('__INDEX__', String(index));
+
+            const wrap = document.createElement('div');
+            wrap.innerHTML = html.trim();
+
+            const node = wrap.firstElementChild;
+            if (!node) return;
+
+            list.appendChild(node);
+            reindex();
+        });
+
+        list.addEventListener('click', (e) => {
+            /** @type {HTMLElement} */
+            const target = e.target;
+            const btn = target.closest('.wpi-remove-field');
+            if (!btn) return;
+
+            const row = btn.closest('.wpi-field-row');
+            if (!row) return;
+
+            row.remove();
+            reindex();
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initGeneralTabToggles();
         initResetButton();
         initFormTabToggles();
+        initCustomFieldsBuilder();
     });
 
 })();
